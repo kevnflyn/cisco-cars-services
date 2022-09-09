@@ -1,0 +1,36 @@
+export const automobileData = {
+  cars: [
+    {
+      id: 1,
+      model: 'One',
+      brandId: 1
+    },
+    {
+      id: 2,
+      model: 'Two',
+      brandId: 2
+    }
+  ],
+  brands: [
+    {
+      id: 1,
+      name: 'One',
+      companyId: 1
+    },
+    {
+      id: 2,
+      name: 'Two',
+      companyId: 2
+    }
+  ],
+  companies: [
+    {
+      id: 1,
+      name: 'One'
+    },
+    {
+      id: 2,
+      name: 'Two'
+    }
+  ]
+}

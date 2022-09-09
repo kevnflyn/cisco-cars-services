@@ -1,3 +1,7 @@
+/**
+ * First things first, configure our environment using the .env file
+ * variables
+ */
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -7,7 +11,16 @@ dotenv.config()
 import 'module-alias/register'
 import debug from 'debug'
 import http from'http'
+import { getDb } from './utils/database'
 import { expressApp } from'./expressApp'
+import { seedDatabase } from './seedDatabase'
+
+/**
+ * Create database
+ */
+const db = getDb()
+seedDatabase(db)
+process.db = db
 
 const debugServer = debug('cisco-cars-exercise:server')
 
@@ -16,7 +29,6 @@ const debugServer = debug('cisco-cars-exercise:server')
  */
 const port = normalizePort(process.env.PORT || '3000')
 expressApp.set('port', port)
-
 
 /**
  * Create HTTP server.

@@ -2,6 +2,7 @@
  * Module dependencies.
  */
 import express from 'express'
+import helmet from 'helmet'
 import logger from 'morgan'
 import cors from 'cors'
 import { carsRouter } from './routes/cars'
@@ -10,6 +11,11 @@ import { companiesRouter } from './routes/companies'
 import { appConfig } from './appConfig'
 
 export const expressApp = express()
+
+/**
+ * Secure headers
+ */
+expressApp.use(helmet())
 
 /**
  * Request logger
@@ -25,7 +31,6 @@ const corsOptions = {
     callback: (error: Error | null, origins?: boolean) => void
   ) {
     const isWhitelisted = origin && appConfig.whitelist.indexOf(origin) !== -1
-    console.log('appConfig.whitelist, ', appConfig.whitelist)
     if (!origin || isWhitelisted) {
       callback(null, true)
     } else {

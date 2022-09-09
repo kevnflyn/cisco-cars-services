@@ -1,8 +1,13 @@
-import { Company as CompanyModel } from '@customTypes/models'
-import data from '@data/automobileData.json'
+import { companySelectQuery } from './companyQueries'
+
+export interface CompanyModel {
+  id: number
+  name: string
+}
 
 export const Company = class {
-  static fetchById(id: number): CompanyModel | undefined {
-    return data.companies.find(company => company.id === id)
+  static async fetchById(id: number): Promise<CompanyModel | undefined> {
+    const { rows: [company] } = await process.db.query(companySelectQuery, [id])
+    return company || undefined
   }
 }

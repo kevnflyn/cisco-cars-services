@@ -5,14 +5,14 @@ import { response400BadRequest, response404NotFound, response200Success } from '
 type ExpReq = express.Request
 type ExpRes = express.Response
 
-export const getBrand = (req: ExpReq, res: ExpRes) => {
+export const getBrand = async (req: ExpReq, res: ExpRes) => {
   const id = parseInt(req.params.id)
 
   if (isNaN(id)) {
     return response400BadRequest(res)
   }
 
-  const brand = Brand.fetchById(id)
+  const brand = await Brand.fetchById(id)
 
   if (!brand) {
     return response404NotFound(res, 'Brand not found')

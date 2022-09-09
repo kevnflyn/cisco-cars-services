@@ -1,8 +1,14 @@
-import { Car as CarModel } from 'src/types/models'
-import data from '../data/automobileData.json'
+import { carSelectQuery } from './carQueries'
+
+export interface CarModel {
+  id: number
+  model: string
+  brandId: number
+}
 
 export const Car = class {
-  static fetchById(id: number): CarModel | undefined {
-    return data.cars.find(car => car.id === id)
+  static async fetchById(id: number): Promise<CarModel | undefined> {
+    const { rows: [car] } = await process.db.query(carSelectQuery, [id])
+    return car || undefined
   }
 }

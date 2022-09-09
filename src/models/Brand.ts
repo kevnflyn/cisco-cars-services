@@ -1,8 +1,14 @@
-import { Brand as BrandModel } from 'src/types/models'
-import data from '../data/automobileData.json'
+import { brandSelectQuery } from './brandQueries'
+
+export interface BrandModel {
+  id: number
+  name: string
+  companyId: number
+}
 
 export const Brand = class {
-  static fetchById(id: number): BrandModel | undefined {
-    return data.brands.find(brand => brand.id === id)
+  static async fetchById(id: number): Promise<BrandModel | undefined> {
+    const { rows: [brand] } = await process.db.query(brandSelectQuery, [id])
+    return brand || undefined
   }
 }
