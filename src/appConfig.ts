@@ -14,7 +14,7 @@ interface DbConfig {
 
 export const appConfig: AppConfig = {
   port: +(process.env.APP_PORT || '3000'),
-  whitelist: ['http://localhost:4000']
+  whitelist: ['http://localhost:3000', 'http://localhost:4000']
 }
 
 export const dbConfig: DbConfig = {
