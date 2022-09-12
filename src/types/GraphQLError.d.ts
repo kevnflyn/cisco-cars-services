@@ -1,4 +1,4 @@
 type CustomGraphQLError = GraphQLError & {
-  data: any
+  data?: any
   status: string
 }
