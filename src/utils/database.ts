@@ -1,5 +1,6 @@
 import { dbConfig } from '../appConfig'
 import { Pool } from 'pg'
+import { toCamelCaseObject } from './toCamelCaseObject'
 
 type PoolQueryFunc = Pool['query']
 export interface NewQueryFuncReturn {
@@ -43,7 +44,9 @@ export const getDb = (dbConnectionCallback?: DatabaseCallback) => {
       const response = await pool.query(queryString, values)
       const duration = `${Date.now() - start}ms`
       return {
-        rows: response ? response.rows : [],
+        rows: response && response.rows
+          ? response.rows.map(result => toCamelCaseObject(result))
+          : [],
         duration
       }
     }

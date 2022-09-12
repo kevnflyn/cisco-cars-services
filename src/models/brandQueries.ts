@@ -2,10 +2,10 @@ export const brandTableCreateQuery = `
   CREATE TABLE IF NOT EXISTS brands (
     id INT GENERATED ALWAYS AS IDENTITY,
     name TEXT NOT NULL UNIQUE,
-    companyId INT NOT NULL,
+    company_id INT NOT NULL,
     PRIMARY KEY(id),
     CONSTRAINT fk_company
-      FOREIGN KEY(companyId)
+      FOREIGN KEY(company_id)
       REFERENCES companies(id)
   );
 `
@@ -15,7 +15,7 @@ export const brandSelectQuery = `
 `
 
 export const brandInsertQuery = `
-  INSERT INTO brands (name, companyId)
+  INSERT INTO brands (name, company_id)
   VALUES ($1, $2)
   RETURNING *;
 `

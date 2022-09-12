@@ -1,5 +1,4 @@
 import * as express from 'express'
-import { Dictionary } from '@customTypes/Dictionary'
 
 type ExpRes = express.Response
 

@@ -12,12 +12,12 @@ const automobileData = {
     {
       id: 1,
       model: 'One',
-      brandId: 1
+      brand_id: 1
     },
     {
       id: 2,
       model: 'Two',
-      brandId: 2
+      brand_id: 2
     }
   ],
   brands: [
@@ -46,20 +46,24 @@ const automobileData = {
 
 const db = getDb()
 
-db.query(`
-  ${companyTableCreateQuery}
-  ${brandTableCreateQuery}
-  ${carTableCreateQuery}
-`)
+const createTablesAndSeedDb = async () => {
+  await db.query(`
+    ${companyTableCreateQuery}
+    ${brandTableCreateQuery}
+    ${carTableCreateQuery}
+  `)
 
-automobileData.companies.forEach(({ name }) => {
-  db.query(companyInsertQuery, [ name])
-})
+  await Promise.all(automobileData.companies.map(({ name }) => (
+    db.query(companyInsertQuery, [ name])
+  )))
 
-automobileData.brands.forEach(({ name, companyId }) => {
-  db.query(brandInsertQuery, [name, companyId])
-})
+  await Promise.all(automobileData.brands.map(({ name, companyId }) => (
+    db.query(brandInsertQuery, [name, companyId])
+  )))
 
-automobileData.cars.forEach(({ model, brandId }) => {
-  db.query(carInsertQuery, [model, brandId])
-})
+  await Promise.all(automobileData.cars.map(({ model, brand_id }) => (
+    db.query(carInsertQuery, [model, brand_id])
+  )))
+}
+
+createTablesAndSeedDb()
