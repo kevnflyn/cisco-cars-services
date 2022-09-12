@@ -13,7 +13,7 @@
     "lint": "eslint app.ts",
     "lint:fix": "eslint --fix app.ts",
     "type": "quicktype src/data/*.json -o src/types/models/[name].json --lang ts",
-    "seeddb": "cross-env NODE=development node ./dist/scripts/seedDatabase"
+    "seeddb": "npm run build && cross-env NODE=development node ./dist/scripts/seedDatabase"
   },
   "_moduleAliases": {
     "@utils": "dist/utils",
