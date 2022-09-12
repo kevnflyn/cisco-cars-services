@@ -70,6 +70,9 @@ expressApp.use('/graphql', graphqlHTTP({
   rootValue: graphqlResolvers,
   graphiql: process.env.NODE_ENV === 'development',
   customFormatErrorFn: (error: CustomGraphQLError) => {
+    if (!error.status) {
+      error.status === 500
+    }
     if (error.originalError) {
       const { data, message, status } = error.originalError
       return { data, message, status }
