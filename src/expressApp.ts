@@ -68,7 +68,7 @@ import { graphqlResolvers } from './graphql/resolvers'
 expressApp.use('/graphql', graphqlHTTP({
   schema: graphqlSchema,
   rootValue: graphqlResolvers,
-  graphiql: true,
+  graphiql: process.env.NODE_ENV === 'development',
   customFormatErrorFn: (error: CustomGraphQLError) => {
     if (error.originalError) {
       const { data, message, status } = error.originalError
