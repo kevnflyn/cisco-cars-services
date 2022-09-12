@@ -1,5 +1,4 @@
 import * as express from 'express'
-import { Dictionary } from '@customTypes/Dictionary'
 
 type ExpRes = express.Response
 
@@ -7,7 +6,10 @@ const resError = (res: ExpRes, status: number, message: string) => (
   res.status(status).json({
     error: {
       message
-    }
+    },
+    errors: [{
+      message
+    }]
   })
 )
 

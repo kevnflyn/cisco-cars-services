@@ -12,7 +12,8 @@
     "nodemon": "NODE_ENV=development nodemon dist/app.js",
     "lint": "eslint app.ts",
     "lint:fix": "eslint --fix app.ts",
-    "type": "quicktype src/data/*.json -o src/types/models/[name].json --lang ts"
+    "type": "quicktype src/data/*.json -o src/types/models/[name].json --lang ts",
+    "seeddb": "npm run build && cross-env NODE=development node ./dist/scripts/seedDatabase"
   },
   "_moduleAliases": {
     "@utils": "dist/utils",
@@ -22,20 +23,24 @@
     "@data": "dist/data"
   },
   "dependencies": {
-    "@types/cors": "^2.8.12",
-    "@types/express": "^4.17.13",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "debug": "~2.6.9",
     "dotenv": "^16.0.2",
     "express": "~4.16.1",
+    "express-graphql": "^0.12.0",
+    "graphql": "^16.6.0",
     "helmet": "^6.0.0",
     "module-alias": "^2.2.2",
     "morgan": "~1.9.1",
     "pg": "^8.8.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.12",
     "@types/debug": "^4.1.7",
+    "@types/express": "^4.17.13",
+    "@types/express-graphql": "^0.9.0",
+    "@types/graphql": "^14.5.0",
     "@types/helmet": "^4.0.0",
     "@types/morgan": "^1.9.3",
     "@types/pg": "^8.6.5",

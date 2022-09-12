@@ -13,13 +13,12 @@ import debug from 'debug'
 import http from'http'
 import { getDb } from './utils/database'
 import { expressApp } from'./expressApp'
-import { seedDatabase } from './seedDatabase'
 
 /**
  * Create database
  */
 const db = getDb()
-seedDatabase(db)
+
 process.db = db
 
 const debugServer = debug('cisco-cars-exercise:server')

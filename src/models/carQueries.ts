@@ -2,10 +2,10 @@ export const carTableCreateQuery = `
   CREATE TABLE IF NOT EXISTS cars (
     id INT GENERATED ALWAYS AS IDENTITY,
     model TEXT NOT NULL UNIQUE,
-    brandId INT NOT NULL,
+    brand_id INT NOT NULL,
     PRIMARY KEY(id),
     CONSTRAINT fk_brand
-      FOREIGN KEY(brandId)
+      FOREIGN KEY(brand_id)
   	  REFERENCES brands(id)
   );
 `
@@ -15,7 +15,7 @@ export const carSelectQuery = `
 `
 
 export const carInsertQuery = `
-  INSERT INTO cars (model, brandId)
+  INSERT INTO cars (model, brand_id)
   VALUES ($1, $2)
   RETURNING *;
 `

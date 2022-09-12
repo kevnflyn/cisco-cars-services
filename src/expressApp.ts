@@ -12,15 +12,25 @@ import { appConfig } from './appConfig'
 
 export const expressApp = express()
 
-/**
- * Secure headers
- */
-expressApp.use(helmet())
+const { NODE_ENV } = process.env
 
 /**
  * Request logger
  */
-expressApp.use(logger('dev'))
+ expressApp.use(logger('dev'))
+
+/**
+ * Request body parsing
+ */
+ expressApp.use(express.json())
+ expressApp.use(express.urlencoded({ extended: false }))
+
+/**
+ * Secure headers
+ */
+expressApp.use(helmet({
+  contentSecurityPolicy: NODE_ENV === 'production' ? undefined : false
+}))
 
 /**
  * Cors Options
@@ -41,14 +51,32 @@ const corsOptions = {
 expressApp.use(cors(corsOptions))
 
 /**
- * Request body parsing
- */
-expressApp.use(express.json())
-expressApp.use(express.urlencoded({ extended: false }))
-
-/**
  * Routes to API endpoints
  */
 expressApp.use('/api', carsRouter)
 expressApp.use('/api', brandsRouter)
 expressApp.use('/api', companiesRouter)
+
+/**
+ * Setup GraphQL
+ */
+
+import { graphqlHTTP } from 'express-graphql'
+import { graphqlSchema } from './graphql/schema'
+import { graphqlResolvers } from './graphql/resolvers'
+
+expressApp.use('/graphql', graphqlHTTP({
+  schema: graphqlSchema,
+  rootValue: graphqlResolvers,
+  graphiql: process.env.NODE_ENV === 'development',
+  customFormatErrorFn: (error: CustomGraphQLError) => {
+    if (!error.status) {
+      error.status === 500
+    }
+    if (error.originalError) {
+      const { data, message, status } = error.originalError
+      return { data, message, status }
+    }
+    return error
+  }
+}))
