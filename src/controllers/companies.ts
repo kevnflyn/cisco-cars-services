@@ -1,9 +1,6 @@
-import * as express from 'express'
+import { ExpReq, ExpRes } from '@customTypes/express'
 import { Company } from '@models/Company'
 import { response400BadRequest, response404NotFound, response200Success } from '@utils/response'
-
-type ExpReq = express.Request
-type ExpRes = express.Response
 
 export const getCompany = async (req: ExpReq, res: ExpRes) => {
   const id = parseInt(req.params.id)
