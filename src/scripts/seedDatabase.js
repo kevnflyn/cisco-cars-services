@@ -6,6 +6,7 @@ import { companyInsertQuery, companyTableCreateQuery } from '../models/companyQu
 import { brandInsertQuery, brandTableCreateQuery } from '../models/brandQueries'
 import { carInsertQuery, carTableCreateQuery } from '../models/carQueries'
 import { _DB, getDb } from '../utils/database'
+import { userTableCreateQuery } from '../models/userQueries'
 
 const automobileData = {
   cars: [
@@ -48,6 +49,7 @@ const db = getDb()
 
 const createTablesAndSeedDb = async () => {
   await db.query(`
+    ${userTableCreateQuery}
     ${companyTableCreateQuery}
     ${brandTableCreateQuery}
     ${carTableCreateQuery}
