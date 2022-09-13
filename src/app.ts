@@ -6,28 +6,35 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 /**
- * Module dependencies.
+ * Module dependencies
  */
-import 'module-alias/register'
 import debug from 'debug'
-import http from'http'
+import 'module-alias/register'
+import http from 'http'
 import { getDb } from './utils/database'
-import { expressApp } from'./expressApp'
+import { createExpressApp } from './expressApp'
+import { appConfig } from './appConfig'
+
+/**
+ * Application debugger
+ */
+const debugServer = debug('cisco-cars-exercise:server')
 
 /**
  * Create database
  */
 const db = getDb()
-
 process.db = db
 
-const debugServer = debug('cisco-cars-exercise:server')
+/**
+ * Create Express application and attach related middleware
+ */
+const { expressApp } = createExpressApp()
 
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(process.env.PORT || '3000')
-expressApp.set('port', port)
+expressApp.set('port', appConfig.port)
 
 /**
  * Create HTTP server.
@@ -37,28 +44,9 @@ const server = http.createServer(expressApp)
 /**
  * Listen on provided port, on all network interfaces.
  */
-server.listen(port)
+server.listen(appConfig.port)
 server.on('error', onError)
 server.on('listening', onListening)
-
-/**
- * Normalize a port into a number, string, or false.
- */
-function normalizePort(val: string) {
-  const port = parseInt(val, 10)
-
-  if (isNaN(port)) {
-    // named pipe
-    return val
-  }
-
-  if (port >= 0) {
-    // port number
-    return port
-  }
-
-  return false
-}
 
 /**
  * Event listener for HTTP server "error" event.
@@ -68,9 +56,9 @@ function onError(error: NodeJS.ErrnoException) {
     throw error
   }
 
-  const bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port
+  const bind = typeof appConfig.port === 'string'
+    ? 'Pipe ' + appConfig.port
+    : 'Port ' + appConfig.port
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -92,8 +80,8 @@ function onError(error: NodeJS.ErrnoException) {
  */
 function onListening() {
   const addr = server.address()
-  const bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr?.port
+  const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr?.port
   debugServer('Listening on ' + bind)
 }
+
+export { expressApp as app }
